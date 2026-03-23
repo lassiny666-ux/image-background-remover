@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Image Background Remover
 
-## Getting Started
+基于 Next.js + Tailwind CSS 的图片背景移除工具
 
-First, run the development server:
+## 技术栈
 
+- Next.js 15
+- TypeScript
+- Tailwind CSS
+- Remove.bg API
+
+## 本地开发
+
+1. 安装依赖
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. 配置环境变量
+创建 `.env.local` 文件：
+```
+REMOVEBG_API_KEY=your_api_key_here
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. 启动开发服务器
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+访问 http://localhost:3000
 
-## Learn More
+## 部署
 
-To learn more about Next.js, take a look at the following resources:
+### Vercel (推荐)
+1. 推送代码到 GitHub
+2. 在 Vercel 导入项目
+3. 设置环境变量 `REMOVEBG_API_KEY`
+4. 部署
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 其他平台
+支持任何 Node.js 托管平台（Netlify, Railway 等）
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 获取 API Key
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+访问 https://www.remove.bg/api 注册并获取免费 API Key（50次/月）
