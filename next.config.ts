@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  allowedDevOrigins: ['enquiry-geometry-harris-slot.trycloudflare.com'],
+  allowedDevOrigins: ['logan-entered-kenny-much.trycloudflare.com'],
 };
 
 export default nextConfig;
