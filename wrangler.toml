@@ -1,0 +1,7 @@
+name = "image-background-remover"
+compatibility_date = "2026-03-24"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".open-next"
+
+[vars]
+REMOVEBG_API_KEY = "tArqxwt9s2xehh4tbQQDacRJ"
