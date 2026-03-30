@@ -1,12 +1,18 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 
 interface Props {
   onUpload: (file: File) => void;
 }
 
 export default function ImageUpload({ onUpload }: Props) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleClick = () => {
+    inputRef.current?.click();
+  };
+
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
@@ -21,26 +27,25 @@ export default function ImageUpload({ onUpload }: Props) {
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col items-center">
       <div
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
-        className="bg-white/90 backdrop-blur-sm rounded-2xl p-16 text-center cursor-pointer border-4 border-dashed border-purple-300 hover:border-purple-500 hover:bg-white/95 transition-all duration-300 shadow-xl"
-        onClick={() => document.getElementById('fileInput')?.click()}
+        className="w-64 h-64 rounded-full border-4 border-dashed border-gray-600 hover:border-purple-500 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover:scale-105"
+        onClick={handleClick}
       >
         <input
-          id="fileInput"
+          ref={inputRef}
           type="file"
           accept="image/*"
           onChange={handleChange}
           className="hidden"
         />
-        <div className="flex flex-col items-center">
-          <div className="text-6xl mb-4">📷</div>
-          <p className="text-xl text-gray-700 font-medium">点击或拖拽图片到这里</p>
-          <p className="text-sm text-gray-500 mt-2">支持 JPG、PNG、WebP 等格式</p>
-        </div>
+        <div className="text-5xl mb-4">📷</div>
+        <p className="text-gray-300 font-medium">上传图片</p>
+        <p className="text-gray-500 text-sm mt-1">点击或拖拽</p>
       </div>
+      <p className="text-gray-500 text-sm mt-8">支持 JPG、PNG、WebP 等格式</p>
     </div>
   );
 }

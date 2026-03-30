@@ -4,9 +4,10 @@ interface Props {
   original: string;
   processed: string | null;
   loading: boolean;
+  onReset: () => void;
 }
 
-export default function ImagePreview({ original, processed, loading }: Props) {
+export default function ImagePreview({ original, processed, loading, onReset }: Props) {
   const handleDownload = () => {
     if (!processed) return;
     const a = document.createElement('a');
@@ -15,53 +16,62 @@ export default function ImagePreview({ original, processed, loading }: Props) {
     a.click();
   };
 
-  const handleReset = () => {
-    window.location.reload();
-  };
-
   return (
-    <div className="flex justify-center">
-      <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl max-w-4xl w-full">
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* 原图 */}
-          <div className="text-center">
-            <h3 className="text-lg font-semibold mb-4 text-gray-700">原图</h3>
-            <div className="bg-gray-100 rounded-xl p-4">
-              <img src={original} alt="原图" className="rounded-lg w-full max-h-64 object-contain mx-auto" />
-            </div>
+    <div>
+      <div className="grid md:grid-cols-2 gap-8">
+        <div className="text-center">
+          <h3 className="text-gray-400 text-sm mb-4 uppercase tracking-wide">原图</h3>
+          <div className="bg-[#27272a] rounded-xl p-4 aspect-square flex items-center justify-center">
+            <img 
+              src={original} 
+              alt="原图" 
+              className="max-w-full max-h-full object-contain rounded-lg" 
+            />
           </div>
+        </div>
 
-          {/* 处理后 */}
-          <div className="text-center">
-            <h3 className="text-lg font-semibold mb-4 text-gray-700">处理后</h3>
-            {loading ? (
-              <div className="flex flex-col items-center justify-center h-64">
-                <div className="text-4xl mb-4">⏳</div>
-                <p className="text-purple-600 text-lg font-medium">处理中...</p>
-                <p className="text-gray-500 text-sm mt-2">请稍候</p>
+        <div className="text-center">
+          <h3 className="text-gray-400 text-sm mb-4 uppercase tracking-wide">处理后</h3>
+          {loading ? (
+            <div className="bg-[#27272a] rounded-xl p-4 aspect-square flex flex-col items-center justify-center">
+              <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+              <p className="text-purple-400 font-medium">处理中...</p>
+            </div>
+          ) : processed ? (
+            <>
+              <div className="bg-[#27272a] rounded-xl p-4 aspect-square flex items-center justify-center">
+                <img 
+                  src={processed} 
+                  alt="处理后" 
+                  className="max-w-full max-h-full object-contain rounded-lg" 
+                />
               </div>
-            ) : processed ? (
-              <>
-                <div className="bg-gray-100 rounded-xl p-4">
-                  <img src={processed} alt="处理后" className="rounded-lg w-full max-h-64 object-contain mx-auto" />
-                </div>
-                <div className="flex flex-col gap-3 mt-6">
-                  <button
-                    onClick={handleDownload}
-                    className="px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-all"
-                  >
-                    下载图片
-                  </button>
-                  <button
-                    onClick={handleReset}
-                    className="px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition-all"
-                  >
-                    处理其他图片
-                  </button>
-                </div>
-              </>
-            ) : null}
-          </div>
+              <div className="flex gap-3 mt-6">
+                <button
+                  onClick={handleDownload}
+                  className="flex-1 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-xl transition-all"
+                >
+                  下载图片
+                </button>
+                <button
+                  onClick={onReset}
+                  className="px-6 py-3 bg-[#27272a] hover:bg-[#3f3f46] text-white font-medium rounded-xl transition-all"
+                >
+                  重新上传
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="bg-[#27272a] rounded-xl p-4 aspect-square flex flex-col items-center justify-center">
+              <p className="text-red-400">处理失败</p>
+              <button
+                onClick={onReset}
+                className="mt-4 px-6 py-2 bg-[#3f3f46] hover:bg-[#52525b] text-white text-sm rounded-lg transition-all"
+              >
+                重试
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
