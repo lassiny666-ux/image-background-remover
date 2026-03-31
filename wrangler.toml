@@ -5,3 +5,9 @@ pages_build_output_dir = ".open-next"
 
 [vars]
 REMOVEBG_API_KEY = "tArqxwt9s2xehh4tbQQDacRJ"
+NEXTAUTH_URL = "https://image-background.cc"
+
+# 运行以下命令设置敏感变量:
+# npx wrangler secret put GOOGLE_CLIENT_ID
+# npx wrangler secret put GOOGLE_CLIENT_SECRET  
+# npx wrangler secret put NEXTAUTH_SECRET
