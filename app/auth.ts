@@ -1,7 +1,26 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
+import { DrizzleAdapter } from "@auth/drizzle-adapter"
+import { drizzle } from "drizzle-orm/d1"
+import * as schema from "./schema"
+
+// 声明 D1 类型
+type D1Database = {
+  exec: (sql: string) => Promise<{ results?: any[]; success: boolean }>
+  prepare: (sql: string) => { bind: (...args: any[]) => { run: () => Promise<any>; all: () => Promise<any> } }
+}
+
+declare global {
+  var __db: ReturnType<typeof drizzle> | undefined
+}
 
 const { handlers, auth, signIn, signOut } = NextAuth({
+  adapter: DrizzleAdapter(
+    // @ts-ignore - Cloudflare D1 绑定
+    process.env.DB 
+      ? drizzle(process.env.DB as unknown as D1Database, { schema })
+      : undefined
+  ),
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -12,7 +31,15 @@ const { handlers, auth, signIn, signOut } = NextAuth({
     signIn: '/',
   },
   session: {
-    strategy: 'jwt',
+    strategy: 'database',
+  },
+  callbacks: {
+    async session({ session, user }) {
+      if (session.user && user) {
+        (session.user as any).id = user.id
+      }
+      return session
+    },
   },
 })
 
