@@ -3,10 +3,8 @@ compatibility_date = "2026-03-24"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".open-next"
 
-[[d1_databases]]
-binding = "DB"
-database_name = "bg-remover-db"
-database_id = "e16b2cee-8761-4375-b05a-4fc3065c28cd"
+# 注意：D1 绑定已通过 Dashboard 手动配置
+# 不再使用 wrangler.toml 管理绑定
 
 [vars]
 REMOVEBG_API_KEY = "tArqxwt9s2xehh4tbQQDacRJ"
