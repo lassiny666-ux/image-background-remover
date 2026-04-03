@@ -14,3 +14,8 @@ NEXTAUTH_URL = "https://image-background.cc"
 # npx wrangler secret put GOOGLE_CLIENT_ID
 # npx wrangler secret put GOOGLE_CLIENT_SECRET  
 # npx wrangler secret put NEXTAUTH_SECRET
+
+[[d1_databases]]
+binding = "DB"
+database_name = "bg-remover-db"
+database_id = "e16b2cee-8761-4375-b05a-4fc3065c28cd"
