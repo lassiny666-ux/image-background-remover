@@ -1,9 +1,22 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
+import { DrizzleAdapter } from "@auth/drizzle-adapter"
+import { drizzle } from "drizzle-orm/d1"
+import * as schema from "./schema"
 
-// 注意: D1 数据库需要通过 Cloudflare Dashboard 手动绑定
-// 当前使用 JWT 策略，不依赖数据库
+// D1 类型声明
+type D1Database = {
+  exec: (sql: string) => Promise<{ results?: any[]; success: boolean }>
+  prepare: (sql: string) => { bind: (...args: any[]) => { run: () => Promise<any>; all: () => Promise<any> } }
+}
+
 const { handlers, auth, signIn, signOut } = NextAuth({
+  adapter: DrizzleAdapter(
+    // @ts-ignore - Cloudflare D1 绑定
+    process.env.DB 
+      ? drizzle(process.env.DB as unknown as D1Database, { schema })
+      : undefined
+  ),
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -14,22 +27,14 @@ const { handlers, auth, signIn, signOut } = NextAuth({
     signIn: '/',
   },
   session: {
-    strategy: 'jwt', // 使用 JWT 策略，不需要数据库
+    strategy: 'database', // 使用数据库存储 session
   },
   callbacks: {
-    async session({ session, token }) {
-      if (session.user && token.sub) {
-        (session.user as any).id = token.sub
+    async session({ session, user }) {
+      if (session.user && user) {
+        (session.user as any).id = user.id
       }
       return session
-    },
-    async jwt({ token, user, account, profile }) {
-      // 首次登录时，将用户信息保存到 token
-      if (account && user) {
-        token.accessToken = account.access_token
-        token.id = user.id
-      }
-      return token
     },
   },
 })

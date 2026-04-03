@@ -3,6 +3,11 @@ compatibility_date = "2026-03-24"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".open-next"
 
+[[d1_databases]]
+binding = "DB"
+database_name = "bg-remover-db"
+database_id = "e16b2cee-8761-4375-b05a-4fc3065c28cd"
+
 [vars]
 REMOVEBG_API_KEY = "tArqxwt9s2xehh4tbQQDacRJ"
 NEXTAUTH_URL = "https://image-background.cc"
@@ -11,9 +16,3 @@ NEXTAUTH_URL = "https://image-background.cc"
 # npx wrangler secret put GOOGLE_CLIENT_ID
 # npx wrangler secret put GOOGLE_CLIENT_SECRET  
 # npx wrangler secret put NEXTAUTH_SECRET
-
-# 注意: D1 数据库需要在 Cloudflare Dashboard 手动绑定
-# Settings -> Bindings -> Add binding -> D1 Database
-# binding = "DB"
-# database_name = "bg-remover-db"
-# database_id = "e16b2cee-8761-4375-b05a-4fc3065c28cd"
