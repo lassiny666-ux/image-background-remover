@@ -1,9 +1,22 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
+import { DrizzleAdapter } from "@auth/drizzle-adapter"
+import { drizzle } from "drizzle-orm/d1"
+import * as schema from "./schema"
 
-// 注意: D1 数据库需要通过 Cloudflare Dashboard 手动绑定
-// 当前使用 JWT 策略，待 D1 绑定后恢复数据库策略
+// D1 类型声明
+type D1Database = {
+  exec: (sql: string) => Promise<{ results?: any[]; success: boolean }>
+  prepare: (sql: string) => { bind: (...args: any[]) => { run: () => Promise<any>; all: () => Promise<any> } }
+}
+
 const { handlers, auth, signIn, signOut } = NextAuth({
+  adapter: DrizzleAdapter(
+    // @ts-ignore - Cloudflare D1 绑定
+    process.env.DB 
+      ? drizzle(process.env.DB as unknown as D1Database, { schema })
+      : undefined
+  ),
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -14,12 +27,12 @@ const { handlers, auth, signIn, signOut } = NextAuth({
     signIn: '/',
   },
   session: {
-    strategy: 'jwt', // 临时使用 JWT，D1 绑定后改为 'database'
+    strategy: 'database', // 使用数据库存储 session
   },
   callbacks: {
-    async session({ session, token }) {
-      if (session.user && token.sub) {
-        (session.user as any).id = token.sub
+    async session({ session, user }) {
+      if (session.user && user) {
+        (session.user as any).id = user.id
       }
       return session
     },
