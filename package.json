@@ -13,13 +13,13 @@
     "@auth/drizzle-adapter": "^1.11.1",
     "@libsql/client": "^0.17.2",
     "drizzle-orm": "^0.45.2",
-    "next": "15.1.0",
+    "next": "15.5.10",
     "next-auth": "5.0.0-beta.30",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@opennextjs/cloudflare": "^1.17.3",
+    "@opennextjs/cloudflare": "^1.18.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^18",
@@ -27,7 +27,7 @@
     "better-sqlite3": "^12.8.0",
     "drizzle-kit": "^0.31.10",
     "eslint": "^9",
-    "eslint-config-next": "15.1.0",
+    "eslint-config-next": "15.5.10",
     "tailwindcss": "^4",
     "typescript": "^5",
     "wrangler": "^4.77.0"
