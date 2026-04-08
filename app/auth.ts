@@ -24,13 +24,17 @@ const { handlers, auth, signIn, signOut } = NextAuth(() => {
   const db = getDB()
   console.log("[Auth] DB bound:", !!db, "Session strategy:", db ? 'database' : 'jwt')
 
+  // 构建时使用占位值，运行时从环境变量读取
+  const clientId = process.env.GOOGLE_CLIENT_ID || 'build-time-placeholder'
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET || 'build-time-placeholder'
+
   return {
     // 只在 DB 绑定时使用 adapter
     ...(db ? { adapter: DrizzleAdapter(db) } : {}),
     providers: [
       Google({
-        clientId: process.env.GOOGLE_CLIENT_ID!,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+        clientId,
+        clientSecret,
       }),
     ],
     pages: {
