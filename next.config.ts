@@ -10,6 +10,10 @@ const nextConfig = {
       },
     ],
   },
+  swcMinify: true,
+  experimental: {
+    optimizePackageImports: ['@auth/drizzle-adapter', 'drizzle-orm', '@libsql/client'],
+  },
 };
 
 export default nextConfig;
